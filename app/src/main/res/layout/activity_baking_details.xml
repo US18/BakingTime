@@ -8,25 +8,13 @@
     android:background="#640922"
     tools:context="com.example.uplabdhisingh.bakingtime.BakingActivityDetails">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="90sp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/ing_container"
-        />
 
-    <FrameLayout
-        android:id="@+id/steps_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/ing_container" />
+   <FrameLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/recipe_detail_fragment_container"
+       android:layout_margin="5dp"
+       ></FrameLayout>
 
 
 </RelativeLayout>

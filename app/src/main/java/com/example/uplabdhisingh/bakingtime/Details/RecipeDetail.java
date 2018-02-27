@@ -162,4 +162,5 @@ public class RecipeDetail implements Parcelable
         }
         dest.writeString(image);
     }
+
 }

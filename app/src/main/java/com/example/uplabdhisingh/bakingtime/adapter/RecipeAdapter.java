@@ -24,9 +24,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     final private RecipeAdapterOnClickHandler mClickHandler;
     private Context mContext;
 
-    public RecipeAdapter(Context context,RecipeAdapterOnClickHandler itemClicked)
+    public RecipeAdapter(RecipeAdapterOnClickHandler itemClicked)
     {
-        mContext=context;
         mClickHandler=itemClicked;
     }
 

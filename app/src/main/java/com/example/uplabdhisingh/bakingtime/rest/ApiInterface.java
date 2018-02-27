@@ -1,6 +1,5 @@
 package com.example.uplabdhisingh.bakingtime.rest;
 
-import com.example.uplabdhisingh.bakingtime.Details.Ingredient;
 import com.example.uplabdhisingh.bakingtime.Details.RecipeDetail;
 
 import java.util.ArrayList;

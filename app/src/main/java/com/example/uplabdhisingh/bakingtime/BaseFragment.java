@@ -13,9 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.uplabdhisingh.bakingtime.Details.Ingredient;
 import com.example.uplabdhisingh.bakingtime.Details.RecipeDetail;
-import com.example.uplabdhisingh.bakingtime.Details.Step;
 import com.example.uplabdhisingh.bakingtime.adapter.RecipeAdapter;
 import com.example.uplabdhisingh.bakingtime.rest.ApiClient;
 import com.example.uplabdhisingh.bakingtime.rest.ApiInterface;
@@ -31,7 +29,7 @@ import retrofit2.Response;
  * Created by uplabdhisingh on 11/02/18.
  */
 
-public class BaseFragment extends Fragment implements RecipeAdapter.RecipeAdapterOnClickHandler
+public class BaseFragment extends Fragment
 {
     public BaseFragment(){}
     public String TAG = BaseFragment.class.getSimpleName();
@@ -47,7 +45,7 @@ public class BaseFragment extends Fragment implements RecipeAdapter.RecipeAdapte
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         recipeRecyclerView.setHasFixedSize(true);
         recipeRecyclerView.setLayoutManager(layoutManager);
-        final RecipeAdapter recipeAdapter = new RecipeAdapter(getContext(),this);
+        final RecipeAdapter recipeAdapter = new RecipeAdapter((BakingActivity)getActivity());
         recipeRecyclerView.setAdapter(recipeAdapter);
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
@@ -72,13 +70,4 @@ public class BaseFragment extends Fragment implements RecipeAdapter.RecipeAdapte
         return rootView;
     }
 
-    @Override
-    public void onClickItem(RecipeDetail recipeData)
-    {
-        Context thisClass = getContext();
-        Class destinationClass = BakingActivityDetails.class;
-        Intent intentToPassOurDataFromThisClass=new Intent(thisClass,destinationClass);
-        intentToPassOurDataFromThisClass.putExtra("RecipeDetail",recipeData);
-        startActivity(intentToPassOurDataFromThisClass);
-    }
 }
