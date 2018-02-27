@@ -31,6 +31,7 @@ public class BakingActivity extends AppCompatActivity implements RecipeAdapter.R
     Below Method is overrided and says when the specific recipe from first activity is clicked, then
     it will intent to baking activity detail class.
      */
+    
     @Override
     public void onClickItem(RecipeDetail recipeDataObject)
     {
