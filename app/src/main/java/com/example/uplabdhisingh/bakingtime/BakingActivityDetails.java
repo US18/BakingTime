@@ -12,10 +12,10 @@ import com.example.uplabdhisingh.bakingtime.adapter.StepsAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BakingActivityDetails extends AppCompatActivity implements StepsAdapter.StepsClickListener
+public class BakingActivityDetails extends AppCompatActivity
+        implements StepsAdapter.StepsClickListener
 {
-    private ArrayList<RecipeDetail> recipeDetails;
-
+    RecipeDetail recipeDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,27 +23,53 @@ public class BakingActivityDetails extends AppCompatActivity implements StepsAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baking_details);
 
-        if(savedInstanceState==null)
-        {
-            Bundle showThisActivityBundle = getIntent().getExtras();
 
-            recipeDetails = new ArrayList<>();
-            recipeDetails=showThisActivityBundle.getParcelableArrayList("SELECTED_RECIPE_DETAIL");
+           // Bundle showThisActivityBundle = getIntent().getExtras();
+
+           // recipeDetails = new ArrayList<>();
+            //recipeDetails=showThisActivityBundle.getParcelableArrayList("SELECTED_RECIPE_DETAIL");
+
+            Intent intent = getIntent();
+            recipeDetails = intent.getParcelableExtra("RecipeDetail");
 
             DetailFragment detailFragment = new DetailFragment();
-            detailFragment.setArguments(showThisActivityBundle);
+            StepDetailFragment stepDetailFragment = new StepDetailFragment();
+
+            Bundle b = new Bundle();
+            b.putParcelable("RecipeDetail",recipeDetails);
+
 
             FragmentManager fragmentManager = getSupportFragmentManager();
+            detailFragment.setArguments(b);
+            stepDetailFragment.setArguments(b);
+
             fragmentManager.beginTransaction()
-                    .add(R.id.recipe_detail_fragment_container,detailFragment)
+                    .replace(R.id.recipe_detail_fragment_container,detailFragment)
                     .commit();
 
-        }
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.recipe_detail_fragment_container,stepDetailFragment)
+                    .commit();
+
+
     }
 
     @Override
-    public void onStepClicked(List<Step> stepClicked, int clickedIndex)
+    public void onStepClicked(ArrayList<Step> stepClicked, int clickedIndex)
     {
 
+        StepDetailFragment stepDetailFragment = new StepDetailFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Bundle stepBundle = new Bundle();
+        stepBundle.putParcelableArrayList("STEPS_SELECTED",stepClicked);
+        stepBundle.putInt("INDEX_SELECTED",clickedIndex);
+        stepDetailFragment.setArguments(stepBundle);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.recipe_detail_fragment_container,stepDetailFragment)
+                .commit();
+
     }
+
 }

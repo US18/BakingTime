@@ -25,10 +25,10 @@ public class RecipeDetail implements Parcelable
     private String name;
     @SerializedName("ingredients")
     @Expose
-    private ArrayList<Ingredient> ingredients = null;
+    private ArrayList<Ingredient> ingredients;
     @SerializedName("steps")
     @Expose
-    private List<Step> steps = null;
+    private ArrayList<Step> steps;
     @SerializedName("servings")
     @Expose
     private Integer servings;
@@ -51,7 +51,7 @@ public class RecipeDetail implements Parcelable
      * @param image
      * @param steps
      */
-    public RecipeDetail(Integer id, String name, ArrayList<Ingredient> ingredients, List<Step> steps, Integer servings, String image) {
+    public RecipeDetail(Integer id, String name, ArrayList<Ingredient> ingredients, ArrayList<Step> steps, Integer servings, String image) {
         super();
         this.id = id;
         this.name = name;
@@ -61,33 +61,30 @@ public class RecipeDetail implements Parcelable
         this.image = image;
     }
 
-    protected RecipeDetail(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }
-        name = in.readString();
-        if (in.readByte() == 0) {
-            servings = null;
-        } else {
-            servings = in.readInt();
-        }
-        image = in.readString();
+   private RecipeDetail(Parcel parcel)
+    {
+        id=parcel.readInt();
+        name=parcel.readString();
+        ingredients=new ArrayList<Ingredient>();
+        ingredients=parcel.readArrayList(Ingredient.class.getClassLoader());
+        steps=new ArrayList<Step>();
+        steps=parcel.readArrayList(Step.class.getClassLoader());
+        servings=parcel.readInt();
+        image=parcel.readString();
     }
 
-    public static final Creator<RecipeDetail> CREATOR = new Creator<RecipeDetail>()
+    public static final Parcelable.Creator<RecipeDetail> CREATOR = new Parcelable.Creator<RecipeDetail>()
     {
         @Override
-        public RecipeDetail createFromParcel(Parcel in)
+        public RecipeDetail createFromParcel(Parcel parcel)
         {
-            return new RecipeDetail(in);
+            return new RecipeDetail(parcel);
         }
 
         @Override
-        public RecipeDetail[] newArray(int size)
+        public RecipeDetail[] newArray(int i)
         {
-            return new RecipeDetail[size];
+            return new RecipeDetail[0];
         }
     };
 
@@ -107,7 +104,8 @@ public class RecipeDetail implements Parcelable
         this.name = name;
     }
 
-    public ArrayList<Ingredient> getIngredients() {
+    public ArrayList<Ingredient> getIngredients()
+    {
         return ingredients;
     }
 
@@ -115,11 +113,11 @@ public class RecipeDetail implements Parcelable
         this.ingredients = ingredients;
     }
 
-    public List<Step> getSteps() {
+    public ArrayList<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<Step> steps) {
+    public void setSteps(ArrayList<Step> steps) {
         this.steps = steps;
     }
 
@@ -146,20 +144,13 @@ public class RecipeDetail implements Parcelable
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(id);
-        }
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        dest.writeInt(id);
         dest.writeString(name);
-        if (servings == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(servings);
-        }
+        dest.writeList(ingredients);
+        dest.writeList(steps);
+        dest.writeInt(servings);
         dest.writeString(image);
     }
 

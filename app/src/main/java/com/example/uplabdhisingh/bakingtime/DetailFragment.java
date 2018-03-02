@@ -17,7 +17,6 @@ import com.example.uplabdhisingh.bakingtime.Details.Ingredient;
 import com.example.uplabdhisingh.bakingtime.Details.RecipeDetail;
 import com.example.uplabdhisingh.bakingtime.adapter.StepsAdapter;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -29,7 +28,7 @@ public class DetailFragment extends Fragment
 {
     TextView ingredientsTextView;
     RecyclerView stepsRecyclerView;
-    ArrayList<RecipeDetail> recipeDetails;
+    RecipeDetail recipeDetails;
 
     private String TAG = DetailFragment.class.getSimpleName();
     public DetailFragment()
@@ -40,42 +39,47 @@ public class DetailFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
+        View rootView = inflater.inflate(R.layout.fragment_recipe_detail,container,false);
 
-        recipeDetails = new ArrayList<>();
+        //recipeDetails = new ArrayList<>();
         if(savedInstanceState!=null)
         {
-            recipeDetails = savedInstanceState.getParcelableArrayList("SELECTED_RECIPE_DETAIL");
-        } else {
-            recipeDetails = getArguments().getParcelableArrayList("SELECTED_RECIPE_DETAIL");
+            recipeDetails = savedInstanceState.getParcelable("RecipeDetail");
+            Log.e(TAG, "onCreateView: got instance");
+         } else {
+            recipeDetails = getArguments().getParcelable("RecipeDetail");
+            Log.d(TAG, "onCreateView: got args");
         }
 
-        assert recipeDetails != null;
-        ArrayList<Ingredient> ingredientArrayList = recipeDetails.get(0).getIngredients();
-        Log.d(TAG,"Message : "+ingredientArrayList);
+       // Log.d(TAG,"RecipeDetails:"+recipeDetails.getName());
 
-        View rootView = inflater.inflate(R.layout.fragment_recipe_detail,container,false);
+       ArrayList<Ingredient> ingredientArrayList = recipeDetails.getIngredients();
+
+       // Log.d(TAG,"Ingredient Arraylist Size :  "+ingredientArrayList.size());
 
         ingredientsTextView = (TextView) rootView.findViewById(R.id.tv_ingredients);
         stepsRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_steps);
-      /* ingredientArrayList.forEach( (a) ->
+
+       ingredientArrayList.forEach( (a) ->
                 {
+                 ingredientsTextView.append(a.getIngredient()+" : ");
                  ingredientsTextView.append(Float.valueOf(a.getQuantity()).toString());
-                 ingredientsTextView.append(a.getMeasure()+" : ");
-                 ingredientsTextView.append(a.getIngredient()+"\n");
-                }); */
+                 ingredientsTextView.append(a.getMeasure()+"\n");
+                });
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         stepsRecyclerView.setLayoutManager(linearLayoutManager);
 
         StepsAdapter recipeStepAdapter=new StepsAdapter((BakingActivityDetails)getActivity());
         stepsRecyclerView.setAdapter(recipeStepAdapter);
-        recipeStepAdapter.setStepsData(recipeDetails,getContext());
+       recipeStepAdapter.setStepsData(recipeDetails,getContext());
         return rootView;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState)
+    {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("SELECTED_RECIPE_DETAIL",recipeDetails);
+        outState.putParcelable("RecipeDetail",recipeDetails);
     }
 }

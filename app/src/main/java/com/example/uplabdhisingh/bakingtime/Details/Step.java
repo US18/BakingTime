@@ -51,27 +51,24 @@ public class Step implements Parcelable
         this.thumbnailURL = thumbnailURL;
     }
 
-    protected Step(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }
-        shortDescription = in.readString();
-        description = in.readString();
-        videoURL = in.readString();
-        thumbnailURL = in.readString();
+    private Step(Parcel parcel)
+    {
+        id=parcel.readInt();
+        shortDescription=parcel.readString();
+        description=parcel.readString();
+        videoURL=parcel.readString();
+        thumbnailURL=parcel.readString();
     }
 
-    public static final Creator<Step> CREATOR = new Creator<Step>() {
+    public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
         @Override
-        public Step createFromParcel(Parcel in) {
-            return new Step(in);
+        public Step createFromParcel(Parcel parcel) {
+            return new Step(parcel);
         }
 
         @Override
-        public Step[] newArray(int size) {
-            return new Step[size];
+        public Step[] newArray(int i) {
+            return new Step[0];
         }
     };
 
@@ -121,13 +118,9 @@ public class Step implements Parcelable
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(id);
-        }
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        dest.writeInt(id);
         dest.writeString(shortDescription);
         dest.writeString(description);
         dest.writeString(videoURL);

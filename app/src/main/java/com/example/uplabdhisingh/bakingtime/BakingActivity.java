@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class BakingActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler
 {
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -31,20 +30,24 @@ public class BakingActivity extends AppCompatActivity implements RecipeAdapter.R
     Below Method is overrided and says when the specific recipe from first activity is clicked, then
     it will intent to baking activity detail class.
      */
-    
+
     @Override
     public void onClickItem(RecipeDetail recipeDataObject)
     {
-        Bundle toShowSecondActivityBundle = new Bundle();
-        ArrayList<RecipeDetail> recipeDetailArrayList = new ArrayList<>();
-        recipeDetailArrayList.add(recipeDataObject);
-        toShowSecondActivityBundle.putParcelableArrayList("SELECTED_RECIPE_DETAIL",recipeDetailArrayList);
+      //  Bundle toShowSecondActivityBundle = new Bundle();
+       // ArrayList<RecipeDetail> recipeDetailArrayList = new ArrayList<>();
+       // recipeDetailArrayList.add(recipeDataObject);
+       // toShowSecondActivityBundle.putParcelableArrayList("SELECTED_RECIPE_DETAIL",recipeDetailArrayList);
 
         Context thisClass = this;
         Class destinationClass = BakingActivityDetails.class;
         Intent intentToPassOurDataFromThisClass=new Intent(thisClass,destinationClass);
-        intentToPassOurDataFromThisClass.putExtras(toShowSecondActivityBundle);
-        startActivity(intentToPassOurDataFromThisClass);
+        intentToPassOurDataFromThisClass.putExtra("RecipeDetail",recipeDataObject);
+       // intentToPassOurDataFromThisClass.putExtras(toShowSecondActivityBundle);
+        if(intentToPassOurDataFromThisClass.resolveActivity(getPackageManager())!=null)
+        {
+            startActivity(intentToPassOurDataFromThisClass);
+        }
     }
 
     @Override

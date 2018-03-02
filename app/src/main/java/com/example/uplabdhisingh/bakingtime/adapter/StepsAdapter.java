@@ -20,11 +20,13 @@ import java.util.List;
 
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsAdapterViewHolder>
 {
-    List<Step> stepsList;
+    ArrayList<Step> stepsList;
     final private StepsClickListener stepsClickListener;
 
-    public interface StepsClickListener{
-        void onStepClicked(List<Step> stepClicked,int clickedIndex);
+
+    public interface StepsClickListener
+    {
+        void onStepClicked(ArrayList<Step> stepClicked,int clickedIndex);
     }
 
     public StepsAdapter(StepsClickListener listener)
@@ -78,8 +80,8 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsAdapter
         }
     }
 
-    public void setStepsData(List<RecipeDetail> recipeDetails,Context context){
-        stepsList=recipeDetails.get(0).getSteps();
+    public void setStepsData(RecipeDetail recipeDetails,Context context){
+        stepsList=recipeDetails.getSteps();
         notifyDataSetChanged();
     }
 }
