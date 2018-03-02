@@ -23,35 +23,20 @@ public class BakingActivityDetails extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baking_details);
 
-
-           // Bundle showThisActivityBundle = getIntent().getExtras();
-
-           // recipeDetails = new ArrayList<>();
-            //recipeDetails=showThisActivityBundle.getParcelableArrayList("SELECTED_RECIPE_DETAIL");
-
             Intent intent = getIntent();
             recipeDetails = intent.getParcelableExtra("RecipeDetail");
 
             DetailFragment detailFragment = new DetailFragment();
-            StepDetailFragment stepDetailFragment = new StepDetailFragment();
 
             Bundle b = new Bundle();
             b.putParcelable("RecipeDetail",recipeDetails);
 
-
             FragmentManager fragmentManager = getSupportFragmentManager();
             detailFragment.setArguments(b);
-            stepDetailFragment.setArguments(b);
 
             fragmentManager.beginTransaction()
                     .replace(R.id.recipe_detail_fragment_container,detailFragment)
                     .commit();
-
-
-            fragmentManager.beginTransaction()
-                    .replace(R.id.recipe_detail_fragment_container,stepDetailFragment)
-                    .commit();
-
 
     }
 

@@ -34,16 +34,10 @@ public class BakingActivity extends AppCompatActivity implements RecipeAdapter.R
     @Override
     public void onClickItem(RecipeDetail recipeDataObject)
     {
-      //  Bundle toShowSecondActivityBundle = new Bundle();
-       // ArrayList<RecipeDetail> recipeDetailArrayList = new ArrayList<>();
-       // recipeDetailArrayList.add(recipeDataObject);
-       // toShowSecondActivityBundle.putParcelableArrayList("SELECTED_RECIPE_DETAIL",recipeDetailArrayList);
-
         Context thisClass = this;
         Class destinationClass = BakingActivityDetails.class;
         Intent intentToPassOurDataFromThisClass=new Intent(thisClass,destinationClass);
         intentToPassOurDataFromThisClass.putExtra("RecipeDetail",recipeDataObject);
-       // intentToPassOurDataFromThisClass.putExtras(toShowSecondActivityBundle);
         if(intentToPassOurDataFromThisClass.resolveActivity(getPackageManager())!=null)
         {
             startActivity(intentToPassOurDataFromThisClass);
@@ -51,7 +45,8 @@ public class BakingActivity extends AppCompatActivity implements RecipeAdapter.R
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState)
+    {
         super.onSaveInstanceState(outState);
     }
 }

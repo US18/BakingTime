@@ -46,10 +46,11 @@ public class DetailFragment extends Fragment
         {
             recipeDetails = savedInstanceState.getParcelable("RecipeDetail");
             Log.e(TAG, "onCreateView: got instance");
-         } else {
+         } else
+             {
             recipeDetails = getArguments().getParcelable("RecipeDetail");
             Log.d(TAG, "onCreateView: got args");
-        }
+             }
 
        // Log.d(TAG,"RecipeDetails:"+recipeDetails.getName());
 
