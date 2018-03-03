@@ -8,13 +8,20 @@
     android:background="#640922"
     tools:context="com.example.uplabdhisingh.bakingtime.BakingActivityDetails">
 
-
-   <FrameLayout
+   <ScrollView
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:id="@+id/recipe_detail_fragment_container"
-       android:layout_margin="5dp"
-       ></FrameLayout>
+       android:layout_height="wrap_content">
+
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/recipe_detail_fragment_container"
+          android:layout_margin="5dp"
+          ></FrameLayout>
+
+   </ScrollView>
+
+
 
 
 </RelativeLayout>

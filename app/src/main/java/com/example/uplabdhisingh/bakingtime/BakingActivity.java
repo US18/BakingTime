@@ -44,6 +44,7 @@ public class BakingActivity extends AppCompatActivity implements RecipeAdapter.R
         }
     }
 
+
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
