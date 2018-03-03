@@ -125,25 +125,25 @@ public class StepDetailFragment extends Fragment
        recipePlayer.release();
    }
 
-    @Override
+  /*  @Override
     public void onDetach() {
         super.onDetach();
         if(recipePlayer!=null)
         {
             releasePlayer();
         }
-    }
+    } */
 
-    @Override
+   /* @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(recipePlayer!=null)
+        /*if(recipePlayer!=null)
         {
             recipePlayer.stop();
             recipePlayer.release();
             recipePlayer=null;
         }
-    }
+    } */
 
     @Override
     public void onStop() {
@@ -154,13 +154,13 @@ public class StepDetailFragment extends Fragment
         }
     }
 
-    @Override
+  /*  @Override
     public void onPause() {
         super.onPause();
         if(recipePlayer!=null)
         {
             releasePlayer();
         }
-    }
+    } */
 
 }

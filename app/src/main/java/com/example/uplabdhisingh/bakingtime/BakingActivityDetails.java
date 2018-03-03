@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.uplabdhisingh.bakingtime.Details.RecipeDetail;
 import com.example.uplabdhisingh.bakingtime.Details.Step;
@@ -16,6 +17,9 @@ public class BakingActivityDetails extends AppCompatActivity
         implements StepsAdapter.StepsClickListener
 {   RecipeDetail recipeDetails;
     private boolean twoPane;
+    int count = 0;
+    Bundle b;
+    String TAG = BakingActivityDetails.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -25,7 +29,7 @@ public class BakingActivityDetails extends AppCompatActivity
         Intent intent = getIntent();
         recipeDetails = intent.getParcelableExtra("RecipeDetail");
         DetailFragment detailFragment = new DetailFragment();
-        Bundle b = new Bundle();
+        b = new Bundle();
         b.putParcelable("RecipeDetail",recipeDetails);
         FragmentManager fragmentManager = getSupportFragmentManager();
         detailFragment.setArguments(b);
@@ -69,17 +73,34 @@ public class BakingActivityDetails extends AppCompatActivity
                     .replace(R.id.recipe_detail_fragment_container,stepDetailFragment)
                     .commit();
         }
+        count=0;
     }
 
-    @Override
-    public boolean onNavigateUp()
-    {
-        finish();
-        return true;
-    }
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+
+        if(count==0)
+        {
+            DetailFragment detailFragment = new DetailFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            detailFragment.setArguments(b);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.recipe_detail_fragment_container,detailFragment)
+                    .commit();
+            count++;
+            Log.d(TAG,"count = " +count);
+        }
+        else
+            {
+            super.onBackPressed();
+        }
     }
 }
