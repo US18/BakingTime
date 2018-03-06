@@ -2,35 +2,48 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:tag="stepDetailFragment"
+    android:background="#c10d3e"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:layout_marginBottom="10dp"
         android:id="@+id/playerView"
-        ></com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_thumbnail"
+        android:layout_margin="10dp"
+        />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tv_short_description"
-        android:layout_margin="10dp"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:fontFamily="casual"
+        android:layout_margin="11dp"
+        android:textColor="#ffffff"
+        android:textSize="35sp"
+        android:fontFamily="sans-serif-condensed"
         android:textStyle="bold"
+        android:textAllCaps="true"
         />
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_description"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:fontFamily="casual"
-        />
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_description"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:fontFamily="serif"
+            />
+    </ScrollView>
 
 </LinearLayout>

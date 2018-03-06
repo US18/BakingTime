@@ -3,6 +3,9 @@
     package="com.example.uplabdhisingh.bakingtime">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,23 +14,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BakingActivity">
+        <activity
+            android:name=".BakingActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BakingActivityDetails" />
+        <activity
+            android:name=".BakingActivityDetails"
+            android:configChanges="orientation|screenSize" />
 
-        <receiver android:name=".widgets.BakingAppWidget">
+        <provider
+            android:name=".data.WidgetContentProvider"
+            android:authorities="com.example.uplabdhisingh.bakingtime"
+            android:exported="false" />
+
+        <receiver android:name=".RecipeWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/baking_app_widget_info" />
+                android:resource="@xml/recipe_widget_info" />
         </receiver>
     </application>
 

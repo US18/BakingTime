@@ -1,6 +1,7 @@
 package com.example.uplabdhisingh.bakingtime.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.uplabdhisingh.bakingtime.Details.RecipeDetail;
 import com.example.uplabdhisingh.bakingtime.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     {
         RecipeDetail recipeClickedPosition = recipeDetailsList.get(position);
         holder.recipeTextView.setText(recipeClickedPosition.getName());
+        String imageUrl = recipeClickedPosition.getImage();
+      /*  if(imageUrl!="")
+        {
+            Uri builtUri = Uri.parse(imageUrl).buildUpon().build();
+            Picasso.with(mContext).load(builtUri).into(holder.recipeImageView);
+        } */
     }
 
     @Override

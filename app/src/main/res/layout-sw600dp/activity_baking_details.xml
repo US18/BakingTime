@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#640922" >
+    android:background="#c10d3e" >
 
    <LinearLayout
        android:layout_width="wrap_content"
@@ -17,14 +17,14 @@
            android:layout_height="wrap_content"
            android:id="@+id/recipe_detail_fragment_container"
            android:layout_margin="5dp"
-           ></FrameLayout>
+           />
 
    </LinearLayout>
 
     <View
-        android:layout_width="1dp"
+        android:layout_width="6dp"
         android:layout_height="match_parent"
-        android:background="#5c5858" />
+        android:background="#ffffff" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/recipe_detail_fragment_container2"
             android:layout_margin="5dp"
-            ></FrameLayout>
+            />
 
     </LinearLayout>
 

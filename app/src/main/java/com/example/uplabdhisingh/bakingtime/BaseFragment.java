@@ -2,7 +2,10 @@ package com.example.uplabdhisingh.bakingtime;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +34,11 @@ import retrofit2.Response;
 
 public class BaseFragment extends Fragment
 {
+    private static Bundle mBundleRecyclerViewState;
+    RecyclerView recipeRecyclerView;
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    LinearLayoutManager layoutManager;
+    private Parcelable mListState = null;
     public BaseFragment(){}
     public String TAG = BaseFragment.class.getSimpleName();
 
@@ -41,8 +49,8 @@ public class BaseFragment extends Fragment
 
         View rootView = inflater.inflate(R.layout.fragment,container,false);
 
-        RecyclerView recipeRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_recipe);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        recipeRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_recipe);
+        layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         recipeRecyclerView.setHasFixedSize(true);
         recipeRecyclerView.setLayoutManager(layoutManager);
         final RecipeAdapter recipeAdapter = new RecipeAdapter((BakingActivity)getActivity());
@@ -70,4 +78,38 @@ public class BaseFragment extends Fragment
         return rootView;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBundleRecyclerViewState = new Bundle();
+        mListState = recipeRecyclerView.getLayoutManager().onSaveInstanceState();
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        if (mBundleRecyclerViewState != null) {
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    mListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+                    recipeRecyclerView.getLayoutManager().onRestoreInstanceState(mListState);
+
+                }
+            }, 50);
+        }
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        }
+        recipeRecyclerView.setLayoutManager(layoutManager);
+    }
 }

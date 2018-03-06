@@ -5,23 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#640922"
+    android:background="#c10d3e"
     tools:context="com.example.uplabdhisingh.bakingtime.BakingActivityDetails">
-
-   <ScrollView
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content">
-
       <FrameLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/recipe_detail_fragment_container"
-          android:layout_margin="5dp"
-          ></FrameLayout>
-
-   </ScrollView>
-
-
-
+          />
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.uplabdhisingh.bakingtime;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,32 +27,35 @@ public class BakingActivityDetails extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baking_details);
 
-        Intent intent = getIntent();
-        recipeDetails = intent.getParcelableExtra("RecipeDetail");
-        DetailFragment detailFragment = new DetailFragment();
-        b = new Bundle();
-        b.putParcelable("RecipeDetail",recipeDetails);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        detailFragment.setArguments(b);
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.recipe_detail_fragment_container,detailFragment)
-                .commit();
-
-        if(findViewById(R.id.linear_recipe_landscape)!=null)
+        if(savedInstanceState==null)
         {
-            twoPane=true;
-            if(savedInstanceState==null)
+            Intent intent = getIntent();
+            recipeDetails = intent.getParcelableExtra("RecipeDetail");
+            DetailFragment detailFragment = new DetailFragment();
+            b = new Bundle();
+            b.putParcelable("RecipeDetail",recipeDetails);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            detailFragment.setArguments(b);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.recipe_detail_fragment_container,detailFragment,"recipeDetailFragment")
+                    .commit();
+
+            if(findViewById(R.id.linear_recipe_landscape)!=null)
             {
-                StepDetailFragment stepDetailFragment = new StepDetailFragment();
-                stepDetailFragment.setArguments(b);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.recipe_detail_fragment_container2,stepDetailFragment)
-                        .commit();
+                twoPane=true;
+                if(savedInstanceState==null)
+                {
+                    StepDetailFragment stepDetailFragment = new StepDetailFragment();
+                    stepDetailFragment.setArguments(b);
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.recipe_detail_fragment_container2,stepDetailFragment)
+                            .commit();
+                }
             }
+        } else {
+            DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentByTag("recipeDetailFragment");
         }
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     @Override
     public void onStepClicked(ArrayList<Step> stepClicked, int clickedIndex)

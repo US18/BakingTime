@@ -1,17 +1,23 @@
 package com.example.uplabdhisingh.bakingtime;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.uplabdhisingh.bakingtime.Details.RecipeDetail;
 import com.example.uplabdhisingh.bakingtime.Details.Step;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
@@ -23,10 +29,12 @@ import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,19 +85,46 @@ public class StepDetailFragment extends Fragment
         descTextView=(TextView) rootView.findViewById(R.id.tv_description);
         recipePlayerView=(SimpleExoPlayerView) rootView.findViewById(R.id.playerView);
 
-        shortDescTextView.setText(stepArrayList.get(selectedIndex).getShortDescription());
+        shortDescTextView.setText(stepArrayList.get(selectedIndex).getShortDescription()+" : ");
         shortDescTextView.setVisibility(View.VISIBLE);
         descTextView.setText(stepArrayList.get(selectedIndex).getDescription());
         descTextView.setVisibility(View.VISIBLE);
+
         String videoURL = stepArrayList.get(selectedIndex).getVideoURL();
         if(!videoURL.isEmpty())
         {
             initializePlayer(Uri.parse(videoURL));
+            if(rootView.findViewById(R.id.linear_recipe_landscape)!=null)
+            {
+                getActivity().findViewById(R.id.recipe_detail_fragment_container2)
+                        .setLayoutParams(new LinearLayout.LayoutParams(-1,-2));
+                recipePlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH);
+            } else if(isInLandscapeMode(getContext())) {
+                descTextView.setVisibility(View.GONE);
+                shortDescTextView.setVisibility(View.GONE);
+            }
+        } else {
+            recipePlayer=null;
+            recipePlayerView.setForeground(ContextCompat.getDrawable(getContext(),R.drawable.ic_visibility_off_white_36dp));
+            recipePlayerView.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
+        }
+
+        String imageUrl = stepArrayList.get(selectedIndex).getThumbnailURL();
+        if(imageUrl!="")
+        {
+            Uri builtUri = Uri.parse(imageUrl).buildUpon().build();
+            ImageView thumbnailImageView = (ImageView) rootView.findViewById(R.id.iv_thumbnail);
+            Picasso.with(getContext()).load(builtUri).into(thumbnailImageView);
         }
 
         return rootView;
     }
 
+
+    public boolean isInLandscapeMode(Context context)
+    {
+        return (context.getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE);
+    }
 
     private void initializePlayer(Uri mediaUri)
     {
@@ -106,6 +141,7 @@ public class StepDetailFragment extends Fragment
                     new DefaultExtractorsFactory(),
                     null,
                     null);
+
             recipePlayer.prepare(mediaSource);
             recipePlayer.setPlayWhenReady(true);
         }
@@ -115,52 +151,28 @@ public class StepDetailFragment extends Fragment
     public void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
-       outState.putParcelableArrayList("STEPS_SELECTED",stepArrayList);
+        outState.putParcelableArrayList("STEPS_SELECTED",stepArrayList);
         outState.putInt("INDEX_SELECTED",selectedIndex);
     }
-
-   private void releasePlayer()
-   {
-       recipePlayer.stop();
-       recipePlayer.release();
-   }
-
-  /*  @Override
-    public void onDetach() {
-        super.onDetach();
-        if(recipePlayer!=null)
-        {
-            releasePlayer();
-        }
-    } */
-
-   /* @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        /*if(recipePlayer!=null)
-        {
-            recipePlayer.stop();
-            recipePlayer.release();
-            recipePlayer=null;
-        }
-    } */
 
     @Override
     public void onStop() {
         super.onStop();
         if(recipePlayer!=null)
         {
-            releasePlayer();
+            recipePlayer.stop();
+            recipePlayer.release();
         }
     }
 
-  /*  @Override
+   @Override
     public void onPause() {
         super.onPause();
         if(recipePlayer!=null)
         {
-            releasePlayer();
+            recipePlayer.stop();
+            recipePlayer.release();
         }
-    } */
+    }
 
 }
