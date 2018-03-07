@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,7 +39,6 @@ public class BaseFragment extends Fragment
     RecyclerView recipeRecyclerView;
     private final String KEY_RECYCLER_STATE = "recycler_state";
     LinearLayoutManager layoutManager;
-    private Parcelable mListState = null;
     public BaseFragment(){}
     public String TAG = BaseFragment.class.getSimpleName();
 
@@ -48,6 +48,7 @@ public class BaseFragment extends Fragment
     {
 
         View rootView = inflater.inflate(R.layout.fragment,container,false);
+
 
         recipeRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_recipe);
         layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
@@ -78,6 +79,7 @@ public class BaseFragment extends Fragment
         return rootView;
     }
 
+    /*
     @Override
     public void onPause() {
         super.onPause();
@@ -112,4 +114,16 @@ public class BaseFragment extends Fragment
         }
         recipeRecyclerView.setLayoutManager(layoutManager);
     }
+ */
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+/*
+        mListState = layoutManager.onSaveInstanceState();
+        outState.putParcelable("RECYCLER_SAVE_INSTANCE",mListState);*/
+
+
+    }
+
 }

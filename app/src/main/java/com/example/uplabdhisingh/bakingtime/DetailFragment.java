@@ -50,22 +50,23 @@ public class DetailFragment extends Fragment
     public DetailFragment()
     {}
 
-    @TargetApi(Build.VERSION_CODES.N)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_recipe_detail,container,false);
 
-        if(savedInstanceState!=null)
-        {
-            recipeDetails = savedInstanceState.getParcelable("RecipeDetail");
-            Log.e(TAG, "onCreateView: got instance");
-         } else
+         if(savedInstanceState!=null)
              {
-            recipeDetails = getArguments().getParcelable("RecipeDetail");
-            Log.d(TAG, "onCreateView: got args");
-             }
+                 recipeDetails = savedInstanceState.getParcelable("RecipeDetail");
+                 Log.d(TAG, "onCreateView: got args");
+
+             } else if (getArguments()!=null){
+
+             recipeDetails = getArguments().getParcelable("RecipeDetail");
+             Log.e(TAG, "onCreateView: got instance");
+           }
+
 
        // Log.d(TAG,"RecipeDetails:"+recipeDetails.getName());
        ArrayList<Ingredient> ingredientArrayList = recipeDetails.getIngredients();
@@ -73,14 +74,13 @@ public class DetailFragment extends Fragment
         ingredientsTextView = (TextView) rootView.findViewById(R.id.tv_ingredients);
         stepsRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_steps);
 
-       ingredientArrayList.forEach( (a) ->
+       for(Ingredient a : ingredientArrayList)
                 {
                  ingredientsTextView.append("\u2022 "+a.getIngredient()+" : ");
                  ingredientsTextView.append(Float.valueOf(a.getQuantity()).toString());
                  ingredientsTextView.append(a.getMeasure()+"\n");
 
-                });
-
+                }
 
         sharedPref = getActivity().getSharedPreferences(myPreference, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -101,12 +101,10 @@ public class DetailFragment extends Fragment
         StepsAdapter recipeStepAdapter=new StepsAdapter((BakingActivityDetails)getActivity());
         stepsRecyclerView.setAdapter(recipeStepAdapter);
        recipeStepAdapter.setStepsData(recipeDetails,getContext());
-
-       // UpdateBakingService.startBakingService(getContext(),recipeIngredientsForWidgets);
         return rootView;
     }
 
-
+/*
     @Override
     public void onPause() {
         super.onPause();
@@ -114,7 +112,8 @@ public class DetailFragment extends Fragment
         mListState = stepsRecyclerView.getLayoutManager().onSaveInstanceState();
         mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
     }
-
+*/
+    /*
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -129,7 +128,6 @@ public class DetailFragment extends Fragment
                 }
             }, 50);
         }
-        // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -140,6 +138,7 @@ public class DetailFragment extends Fragment
         }
         stepsRecyclerView.setLayoutManager(linearLayoutManager);
     }
+ */
 
     @Override
     public void onSaveInstanceState(Bundle outState)
@@ -147,4 +146,7 @@ public class DetailFragment extends Fragment
         super.onSaveInstanceState(outState);
         outState.putParcelable("RecipeDetail",recipeDetails);
     }
+
+
+
 }

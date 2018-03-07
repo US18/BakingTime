@@ -1,18 +1,20 @@
 package com.example.uplabdhisingh.bakingtime;
 
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.uplabdhisingh.bakingtime.Details.RecipeDetail;
 import com.example.uplabdhisingh.bakingtime.Details.Step;
 import com.example.uplabdhisingh.bakingtime.adapter.StepsAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BakingActivityDetails extends AppCompatActivity
         implements StepsAdapter.StepsClickListener
@@ -21,6 +23,9 @@ public class BakingActivityDetails extends AppCompatActivity
     int count = 0;
     Bundle b;
     String TAG = BakingActivityDetails.class.getSimpleName();
+
+    Fragment fragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -55,8 +60,35 @@ public class BakingActivityDetails extends AppCompatActivity
             }
         } else {
             DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentByTag("recipeDetailFragment");
+
+            //fragmentManager = getSupportFragmentManager().getFragment(savedInstanceState,"detailFragment");
         }
+
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+            int id = item.getItemId();
+            if(id==R.id.action_bar_home)
+            {
+                Intent intent = new Intent(this, BakingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            } else if(id==android.R.id.home)
+            {
+                onBackPressed();
+            }
+        return true;
+    }
+
     @Override
     public void onStepClicked(ArrayList<Step> stepClicked, int clickedIndex)
     {
@@ -84,6 +116,7 @@ public class BakingActivityDetails extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
+      //  getSupportFragmentManager().putFragment(outState,"detailFragment",fragmentManager);
     }
 
     @Override

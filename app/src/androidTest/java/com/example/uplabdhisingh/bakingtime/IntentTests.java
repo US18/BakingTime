@@ -57,7 +57,7 @@ public class IntentTests
 
     @Test
     public void checkIntent_RecipeDetailActivity() {
-        onView(ViewMatchers.withId(R.id.rv_recipe)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+        onView(ViewMatchers.withId(R.id.rv_recipe)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
         intended(hasComponent(BakingActivityDetails.class.getName()));
 
     }

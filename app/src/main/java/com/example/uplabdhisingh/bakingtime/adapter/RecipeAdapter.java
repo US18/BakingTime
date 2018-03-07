@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.uplabdhisingh.bakingtime.Details.RecipeDetail;
+import com.example.uplabdhisingh.bakingtime.Details.Step;
 import com.example.uplabdhisingh.bakingtime.R;
+import com.example.uplabdhisingh.bakingtime.StepDetailFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -50,12 +52,30 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     {
         RecipeDetail recipeClickedPosition = recipeDetailsList.get(position);
         holder.recipeTextView.setText(recipeClickedPosition.getName());
-        String imageUrl = recipeClickedPosition.getImage();
-      /*  if(imageUrl!="")
+
+        /*String thumbStepUrl="";
+        ArrayList<Step> step = recipeClickedPosition.getSteps();
+        for(int i=0;i<step.size();i++)
+        {
+            thumbStepUrl=recipeClickedPosition.getSteps().get(i).getThumbnailURL();
+        }
+        String imageUrl = recipeClickedPosition.getImage();*/ //getting the specific image url for that recipe
+        /*
+        The below method is commented because I want to show m static drawable image on the first screen.
+        Also, imageUrl is getting image for the specific recipe and wouldn't fetch any thumbnail url as we are not
+        calling the getThumbnailUrl method in imageUrl.
+        We are specifically calling the getImage() method, which on call will give the Recipe's Image.
+        If the url is not equals null then Picasso will show that image in the imageview.
+        Uncomment the below code to check its working.
+         */
+
+        /*
+        if(imageUrl!="" || thumbStepUrl!="")
         {
             Uri builtUri = Uri.parse(imageUrl).buildUpon().build();
             Picasso.with(mContext).load(builtUri).into(holder.recipeImageView);
-        } */
+        }
+*/
     }
 
     @Override

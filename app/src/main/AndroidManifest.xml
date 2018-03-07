@@ -15,8 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".BakingActivity"
-            android:configChanges="orientation|screenSize">
+            android:name=".BakingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +24,8 @@
         </activity>
         <activity
             android:name=".BakingActivityDetails"
-            android:configChanges="orientation|screenSize" />
+            android:parentActivityName=".BakingActivity"
+           />
 
         <provider
             android:name=".data.WidgetContentProvider"

@@ -1,6 +1,7 @@
 package com.example.uplabdhisingh.bakingtime.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import java.util.List;
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsAdapterViewHolder>
 {
     ArrayList<Step> stepsList;
+    String thumbUrl;
     final private StepsClickListener stepsClickListener;
 
 
@@ -48,6 +50,9 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsAdapter
     @Override
     public void onBindViewHolder(StepsAdapter.StepsAdapterViewHolder holder, int position)
     {
+        Step stepsClickedPosition = stepsList.get(position);
+        thumbUrl = stepsClickedPosition.getThumbnailURL();
+
         holder.stepsTextView.setText(stepsList.get(position).getId()
         +". "+stepsList.get(position).getShortDescription());
     }

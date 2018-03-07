@@ -2,6 +2,7 @@ package com.example.uplabdhisingh.bakingtime;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.test.espresso.IdlingResource;
@@ -21,6 +22,7 @@ public class BakingActivity extends AppCompatActivity implements RecipeAdapter.R
     @Nullable
     private SimpleIdlingResource mIdlingResource;
 
+    //Parcelable parceRecipeState;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -29,6 +31,9 @@ public class BakingActivity extends AppCompatActivity implements RecipeAdapter.R
 
         BaseFragment baseFragment = new BaseFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
+        //Bundle b = new Bundle();
+       // b.putParcelable("RecipeState",parceRecipeState);
+       // baseFragment.setArguments(b);
         fragmentManager.beginTransaction()
                 .add(R.id.recipe_container,baseFragment)
                 .commit();

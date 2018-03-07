@@ -51,6 +51,7 @@ public class StepDetailFragment extends Fragment
     ArrayList<Step> stepArrayList;
     RecipeDetail recipeDetail;
     int selectedIndex;
+   public String thumbUrl;
 
     private String TAG = StepDetailFragment.class.getSimpleName();
 
@@ -91,6 +92,7 @@ public class StepDetailFragment extends Fragment
         descTextView.setVisibility(View.VISIBLE);
 
         String videoURL = stepArrayList.get(selectedIndex).getVideoURL();
+        thumbUrl = stepArrayList.get(selectedIndex).getThumbnailURL();
         if(!videoURL.isEmpty())
         {
             initializePlayer(Uri.parse(videoURL));
