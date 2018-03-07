@@ -3,6 +3,7 @@ package com.example.uplabdhisingh.bakingtime;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +19,9 @@ import java.util.ArrayList;
 
 public class BakingActivityDetails extends AppCompatActivity
         implements StepsAdapter.StepsClickListener
-{   RecipeDetail recipeDetails;
+{
+     RecipeDetail recipeDetails;
+    DetailFragment detailFragment;
     private boolean twoPane;
     int count = 0;
     Bundle b;
@@ -32,37 +35,47 @@ public class BakingActivityDetails extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baking_details);
 
-        if(savedInstanceState==null)
-        {
-            Intent intent = getIntent();
-            recipeDetails = intent.getParcelableExtra("RecipeDetail");
-            DetailFragment detailFragment = new DetailFragment();
-            b = new Bundle();
-            b.putParcelable("RecipeDetail",recipeDetails);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            detailFragment.setArguments(b);
 
-            fragmentManager.beginTransaction()
-                    .replace(R.id.recipe_detail_fragment_container,detailFragment,"recipeDetailFragment")
-                    .commit();
+       /*if(savedInstanceState==null)
+        {*/
 
-            if(findViewById(R.id.linear_recipe_landscape)!=null)
+           Intent intent = getIntent();
+           recipeDetails = intent.getParcelableExtra("RecipeDetail");
+           detailFragment = new DetailFragment();
+           b = new Bundle();
+           b.putParcelable("RecipeDetail",recipeDetails);
+           FragmentManager fragmentManager = getSupportFragmentManager();
+           detailFragment.setArguments(b);
+
+           fragmentManager.beginTransaction()
+                   .replace(R.id.recipe_detail_fragment_container,detailFragment,"recipeDetailFragment")
+                   .commit();
+
+           if(findViewById(R.id.linear_recipe_landscape)!=null)
+           {
+               twoPane=true;
+               if(savedInstanceState==null)
+               {
+                   StepDetailFragment stepDetailFragment = new StepDetailFragment();
+                   stepDetailFragment.setArguments(b);
+                   fragmentManager.beginTransaction()
+                           .replace(R.id.recipe_detail_fragment_container2,stepDetailFragment)
+                           .commit();
+               }
+           }
+
+           /* if(savedInstanceState!=null)
             {
-                twoPane=true;
-                if(savedInstanceState==null)
-                {
-                    StepDetailFragment stepDetailFragment = new StepDetailFragment();
-                    stepDetailFragment.setArguments(b);
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.recipe_detail_fragment_container2,stepDetailFragment)
-                            .commit();
-                }
-            }
-        } else {
+                detailFragment=(DetailFragment) getSupportFragmentManager().findFragmentByTag("recipeDetailFragment");
+            } else if (detailFragment==null)
+            {
+                detailFragment = new DetailFragment();
+            }*/
+        /*} else {
             DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentByTag("recipeDetailFragment");
 
             //fragmentManager = getSupportFragmentManager().getFragment(savedInstanceState,"detailFragment");
-        }
+        }*/
 
     }
 
@@ -85,8 +98,9 @@ public class BakingActivityDetails extends AppCompatActivity
             } else if(id==android.R.id.home)
             {
                 onBackPressed();
+                return true;
             }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -112,12 +126,19 @@ public class BakingActivityDetails extends AppCompatActivity
         count=0;
     }
 
+  /*  @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }*/
+
+    /*
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
       //  getSupportFragmentManager().putFragment(outState,"detailFragment",fragmentManager);
     }
+*/
 
     @Override
     public void onBackPressed()

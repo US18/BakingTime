@@ -76,6 +76,9 @@ public class BaseFragment extends Fragment
                 Log.e(TAG,t.toString());
             }
         });
+       // recipeRecyclerView.scrollToPosition(savedInstanceState.getInt("RecyclerPosition"));
+
+        setRetainInstance(true);
         return rootView;
     }
 
@@ -116,14 +119,19 @@ public class BaseFragment extends Fragment
     }
  */
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
+  /*   @Override
+    public void onSaveInstanceState(@NonNull Bundle outState)
+    {
+        outState.putInt("RecyclerPosition",recipeRecyclerView.getChildAdapterPosition());
         super.onSaveInstanceState(outState);
+
+/*mListState = layoutManager.onSaveInstanceState();
+        outState.putParcelable("RECYCLER_SAVE_INSTANCE",mListState);
+    } */
 /*
-        mListState = layoutManager.onSaveInstanceState();
-        outState.putParcelable("RECYCLER_SAVE_INSTANCE",mListState);*/
-
-
-    }
-
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
+    }*/
 }

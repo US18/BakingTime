@@ -40,6 +40,7 @@ public class DetailFragment extends Fragment
     RecyclerView stepsRecyclerView;
     RecipeDetail recipeDetails;
 
+    String name;
     private static Bundle mBundleRecyclerViewState;
     private final String KEY_RECYCLER_STATE = "recycler_state";
     LinearLayoutManager linearLayoutManager;
@@ -56,13 +57,8 @@ public class DetailFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.fragment_recipe_detail,container,false);
 
-         if(savedInstanceState!=null)
+             if (getArguments()!=null)
              {
-                 recipeDetails = savedInstanceState.getParcelable("RecipeDetail");
-                 Log.d(TAG, "onCreateView: got args");
-
-             } else if (getArguments()!=null){
-
              recipeDetails = getArguments().getParcelable("RecipeDetail");
              Log.e(TAG, "onCreateView: got instance");
            }
@@ -101,10 +97,31 @@ public class DetailFragment extends Fragment
         StepsAdapter recipeStepAdapter=new StepsAdapter((BakingActivityDetails)getActivity());
         stepsRecyclerView.setAdapter(recipeStepAdapter);
        recipeStepAdapter.setStepsData(recipeDetails,getContext());
+
+        setRetainInstance(true);
         return rootView;
     }
+    /*@Override
+    public void onSaveInstanceState(@Nullable Bundle outState)
+    {
+        assert outState != null;
 
-/*
+        outState.putParcelable("RecipeDetail",recipeDetails);
+        super.onSaveInstanceState(outState);
+    }*/
+   /* @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState!=null)
+        {
+            recipeDetails = savedInstanceState.getParcelable("RecipeDetail");
+        }
+
+//        Log.d(TAG, "onCreateView: got args");
+    }*/
+
+    /*
     @Override
     public void onPause() {
         super.onPause();
@@ -140,12 +157,7 @@ public class DetailFragment extends Fragment
     }
  */
 
-    @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable("RecipeDetail",recipeDetails);
-    }
+
 
 
 
