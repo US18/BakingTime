@@ -1,0 +1,3 @@
+# BakingTime
+This project helps the baker Miriam to share her recipes with the world. 
+This app contains the functionality of videos, api call, widgets and many more...
