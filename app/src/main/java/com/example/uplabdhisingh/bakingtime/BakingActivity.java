@@ -34,9 +34,14 @@ public class BakingActivity extends AppCompatActivity implements RecipeAdapter.R
         //Bundle b = new Bundle();
        // b.putParcelable("RecipeState",parceRecipeState);
        // baseFragment.setArguments(b);
-        fragmentManager.beginTransaction()
-                .add(R.id.recipe_container,baseFragment)
-                .commit();
+
+        if(savedInstanceState==null || !savedInstanceState.containsKey("TEST") )
+        {
+            fragmentManager.beginTransaction()
+                    .add(R.id.recipe_container,baseFragment)
+                    .commit();
+        }
+
     }
 
 
@@ -73,5 +78,6 @@ public class BakingActivity extends AppCompatActivity implements RecipeAdapter.R
     protected void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
+        outState.putString("TEST","TEST");
     }
 }

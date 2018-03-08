@@ -40,6 +40,7 @@ public class BaseFragment extends Fragment
     private final String KEY_RECYCLER_STATE = "recycler_state";
     LinearLayoutManager layoutManager;
     public BaseFragment(){}
+    int position=0;
     public String TAG = BaseFragment.class.getSimpleName();
 
     @Nullable
@@ -47,8 +48,13 @@ public class BaseFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
 
-        View rootView = inflater.inflate(R.layout.fragment,container,false);
+        if (savedInstanceState!= null)
+        {
+            position = savedInstanceState.getInt("POS");
+            Log.e(TAG, "onCreateView : " +position);
+        }
 
+        View rootView = inflater.inflate(R.layout.fragment,container,false);
 
         recipeRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_recipe);
         layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
@@ -56,6 +62,7 @@ public class BaseFragment extends Fragment
         recipeRecyclerView.setLayoutManager(layoutManager);
         final RecipeAdapter recipeAdapter = new RecipeAdapter((BakingActivity)getActivity());
         recipeRecyclerView.setAdapter(recipeAdapter);
+
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<ArrayList<RecipeDetail>> call = apiService.getRecipeDetail();
@@ -67,18 +74,17 @@ public class BaseFragment extends Fragment
                 ArrayList<RecipeDetail> recipes = response.body();
                 recipeAdapter.setRecipeData(recipes,getContext());
                 recipeAdapter.notifyDataSetChanged();
-                Log.d(TAG,recipes.toString());
-            }
 
+                Log.d(TAG,recipes.toString());
+
+                recipeRecyclerView.getLayoutManager().scrollToPosition(position);
+            }
             @Override
             public void onFailure(Call<ArrayList<RecipeDetail>> call, Throwable t) {
 
                 Log.e(TAG,t.toString());
             }
         });
-       // recipeRecyclerView.scrollToPosition(savedInstanceState.getInt("RecyclerPosition"));
-
-        setRetainInstance(true);
         return rootView;
     }
 
@@ -119,18 +125,16 @@ public class BaseFragment extends Fragment
     }
  */
 
-  /*   @Override
+     @Override
     public void onSaveInstanceState(@NonNull Bundle outState)
     {
-        outState.putInt("RecyclerPosition",recipeRecyclerView.getChildAdapterPosition());
         super.onSaveInstanceState(outState);
+        outState.putInt("POS",((LinearLayoutManager)recipeRecyclerView.getLayoutManager()).findLastVisibleItemPosition());
+    }
 
-/*mListState = layoutManager.onSaveInstanceState();
-        outState.putParcelable("RECYCLER_SAVE_INSTANCE",mListState);
-    } */
-/*
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+   /* @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
     }*/

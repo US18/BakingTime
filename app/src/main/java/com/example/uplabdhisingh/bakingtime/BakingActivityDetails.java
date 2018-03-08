@@ -31,14 +31,8 @@ public class BakingActivityDetails extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
+    {super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baking_details);
-
-
-       /*if(savedInstanceState==null)
-        {*/
-
            Intent intent = getIntent();
            recipeDetails = intent.getParcelableExtra("RecipeDetail");
            detailFragment = new DetailFragment();
@@ -46,15 +40,16 @@ public class BakingActivityDetails extends AppCompatActivity
            b.putParcelable("RecipeDetail",recipeDetails);
            FragmentManager fragmentManager = getSupportFragmentManager();
            detailFragment.setArguments(b);
-
-           fragmentManager.beginTransaction()
-                   .replace(R.id.recipe_detail_fragment_container,detailFragment,"recipeDetailFragment")
-                   .commit();
-
+        if(savedInstanceState==null || !savedInstanceState.containsKey("TEST") )
+        {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.recipe_detail_fragment_container,detailFragment)
+                    .commit();
+        }
            if(findViewById(R.id.linear_recipe_landscape)!=null)
            {
                twoPane=true;
-               if(savedInstanceState==null)
+               if(savedInstanceState==null || !savedInstanceState.containsKey("TEST") )
                {
                    StepDetailFragment stepDetailFragment = new StepDetailFragment();
                    stepDetailFragment.setArguments(b);
@@ -63,22 +58,30 @@ public class BakingActivityDetails extends AppCompatActivity
                            .commit();
                }
            }
-
-           /* if(savedInstanceState!=null)
-            {
-                detailFragment=(DetailFragment) getSupportFragmentManager().findFragmentByTag("recipeDetailFragment");
-            } else if (detailFragment==null)
-            {
-                detailFragment = new DetailFragment();
-            }*/
-        /*} else {
-            DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentByTag("recipeDetailFragment");
-
-            //fragmentManager = getSupportFragmentManager().getFragment(savedInstanceState,"detailFragment");
-        }*/
-
     }
+    @Override
+    public void onStepClicked(ArrayList<Step> stepClicked, int clickedIndex)
+    {
+        StepDetailFragment stepDetailFragment = new StepDetailFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Bundle stepBundle = new Bundle();
+        stepBundle.putParcelableArrayList("STEPS_SELECTED",stepClicked);
+        stepBundle.putInt("INDEX_SELECTED",clickedIndex);
+        stepDetailFragment.setArguments(stepBundle);
 
+        if(twoPane)
+        {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.recipe_detail_fragment_container2,stepDetailFragment)
+                    .commit();
+        } else
+        {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.recipe_detail_fragment_container,stepDetailFragment)
+                    .commit();
+        }
+        count=0;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -103,42 +106,22 @@ public class BakingActivityDetails extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onStepClicked(ArrayList<Step> stepClicked, int clickedIndex)
-    {
-        StepDetailFragment stepDetailFragment = new StepDetailFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Bundle stepBundle = new Bundle();
-        stepBundle.putParcelableArrayList("STEPS_SELECTED",stepClicked);
-        stepBundle.putInt("INDEX_SELECTED",clickedIndex);
-        stepDetailFragment.setArguments(stepBundle);
 
-        if(twoPane)
-        {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.recipe_detail_fragment_container2,stepDetailFragment)
-                    .commit();
-        } else {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.recipe_detail_fragment_container,stepDetailFragment)
-                    .commit();
-        }
-        count=0;
-    }
 
   /*  @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
     }*/
 
-    /*
+
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
       //  getSupportFragmentManager().putFragment(outState,"detailFragment",fragmentManager);
+        outState.putString("TEST","TEST");
     }
-*/
+
 
     @Override
     public void onBackPressed()

@@ -10,7 +10,7 @@
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:layout_marginBottom="10dp"
         android:id="@+id/playerView"
         />
@@ -22,31 +22,39 @@
         android:layout_margin="10dp"
         />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_short_description"
-        android:layout_margin="11dp"
-        android:textColor="#ffffff"
-        android:textSize="35sp"
-        android:fontFamily="sans-serif-condensed"
-        android:textStyle="bold"
-        android:textAllCaps="true"
-        />
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_description"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
-            android:fontFamily="serif"
-            />
-    </ScrollView>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_short_description"
+                android:layout_margin="11dp"
+                android:textColor="#ffffff"
+                android:textSize="35sp"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_description"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:fontFamily="serif"
+                />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
 
 
 </LinearLayout>

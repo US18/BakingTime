@@ -45,7 +45,7 @@ public class DetailFragment extends Fragment
     private final String KEY_RECYCLER_STATE = "recycler_state";
     LinearLayoutManager linearLayoutManager;
     private Parcelable mListState = null;
-
+    int position=0;
 
     private String TAG = DetailFragment.class.getSimpleName();
     public DetailFragment()
@@ -55,6 +55,12 @@ public class DetailFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
+        if (savedInstanceState!= null)
+        {
+            position = savedInstanceState.getInt("POS");
+            Log.e(TAG, "onCreateView : " +position);
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_recipe_detail,container,false);
 
              if (getArguments()!=null)
@@ -75,7 +81,6 @@ public class DetailFragment extends Fragment
                  ingredientsTextView.append("\u2022 "+a.getIngredient()+" : ");
                  ingredientsTextView.append(Float.valueOf(a.getQuantity()).toString());
                  ingredientsTextView.append(a.getMeasure()+"\n");
-
                 }
 
         sharedPref = getActivity().getSharedPreferences(myPreference, Context.MODE_PRIVATE);
@@ -101,25 +106,31 @@ public class DetailFragment extends Fragment
         setRetainInstance(true);
         return rootView;
     }
-    /*@Override
+
+   @Override
     public void onSaveInstanceState(@Nullable Bundle outState)
     {
-        assert outState != null;
-
-        outState.putParcelable("RecipeDetail",recipeDetails);
         super.onSaveInstanceState(outState);
-    }*/
-   /* @Override
+       /* assert outState != null;
+
+        outState.putParcelable("RecipeDetail",recipeDetails);*/
+        outState.putInt("POS",((LinearLayoutManager)stepsRecyclerView.getLayoutManager()).findLastVisibleItemPosition());
+    }
+
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        if(savedInstanceState!=null)
+       /* if(savedInstanceState!=null)
         {
             recipeDetails = savedInstanceState.getParcelable("RecipeDetail");
-        }
+        }*/
 
 //        Log.d(TAG, "onCreateView: got args");
-    }*/
+        setRetainInstance(true);
+    }
+
 
     /*
     @Override
@@ -156,9 +167,5 @@ public class DetailFragment extends Fragment
         stepsRecyclerView.setLayoutManager(linearLayoutManager);
     }
  */
-
-
-
-
 
 }
